@@ -1,0 +1,6 @@
+interface:
+  display_name: "Premium Web Design"
+  short_description: "Sites de qualquer segmento no nível de uma referência real, com três avaliadores independentes (e dois opcionais, de SEO e de performance)"
+  default_prompt: "Use $premium-web-design para construir ou melhorar meu site tomando como parâmetro um site de referência real, aproveitando o que já existe no projeto e repetindo rodadas com avaliadores independentes até aprovar."
+policy:
+  allow_implicit_invocation: true

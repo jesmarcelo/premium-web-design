@@ -1,0 +1,18 @@
+{
+  "name": "premium-web-design",
+  "description": "Marketplace da skill Premium Web Design: sites de qualquer segmento construídos e avaliados em rodadas até alcançar o nível de uma referência real.",
+  "owner": {
+    "name": "Marcelo Bom Jardim Villasanin",
+    "url": "https://github.com/jesmarcelo"
+  },
+  "plugins": [
+    {
+      "name": "premium-web-design",
+      "source": "./",
+      "description": "Constrói ou refina sites de qualquer segmento no nível de um site de referência real, com avaliadores independentes e rodadas até a aprovação.",
+      "version": "1.0.0",
+      "category": "design",
+      "homepage": "https://github.com/jesmarcelo/premium-web-design"
+    }
+  ]
+}

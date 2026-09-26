@@ -1,0 +1,14 @@
+{
+  "name": "premium-web-design",
+  "displayName": "Premium Web Design",
+  "version": "1.0.0",
+  "description": "Constrói ou refina sites de qualquer segmento no nível de um site de referência real, com um construtor e até cinco avaliadores independentes (pedido, sistema de design, visual e, opcionalmente, SEO e performance) repetindo rodadas até a aprovação.",
+  "author": {
+    "name": "Marcelo Bom Jardim Villasanin",
+    "url": "https://github.com/jesmarcelo"
+  },
+  "homepage": "https://github.com/jesmarcelo/premium-web-design",
+  "repository": "https://github.com/jesmarcelo/premium-web-design",
+  "license": "MIT",
+  "keywords": ["web design", "site", "landing page", "design premium", "avaliação visual", "seo", "performance", "pagespeed", "português"]
+}

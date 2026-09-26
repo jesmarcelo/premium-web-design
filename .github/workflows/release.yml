@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Conferir a versão
+        run: |
+          versao="${GITHUB_REF_NAME#v}"
+          plugin=$(jq -r '.version' .claude-plugin/plugin.json)
+          marketplace=$(jq -r '.plugins[] | select(.name == "premium-web-design") | .version' .claude-plugin/marketplace.json)
+          skill=$(sed -n 's/^  version: "\(.*\)"$/\1/p' skills/premium-web-design/SKILL.md)
+          echo "tag: $versao | plugin.json: $plugin | marketplace.json: $marketplace | SKILL.md: $skill"
+          for v in "$plugin" "$marketplace" "$skill"; do
+            if [ "$v" != "$versao" ]; then
+              echo "::error::A tag $GITHUB_REF_NAME não bate com a versão dos arquivos. Atualize plugin.json, marketplace.json e SKILL.md."
+              exit 1
+            fi
+          done
+          if ! grep -q "^## \[$versao\]" CHANGELOG.md; then
+            echo "::error::O CHANGELOG.md não tem a seção [$versao]."
+            exit 1
+          fi
+
+      - name: Extrair as notas do CHANGELOG
+        run: |
+          versao="${GITHUB_REF_NAME#v}"
+          awk -v v="$versao" '
+            $0 ~ "^## \\[" v "\\]" { dentro = 1; next }
+            dentro && /^## \[/ { exit }
+            dentro && /^\[[^]]+\]: / { exit }
+            dentro { print }
+          ' CHANGELOG.md > notas.md
+          cat notas.md
+
+      - name: Empacotar a skill
+        run: |
+          mkdir -p dist
+          (cd skills && zip -r "../dist/premium-web-design-${GITHUB_REF_NAME}.zip" premium-web-design -x "*.DS_Store")
+
+      - name: Publicar a release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            --title "Premium Web Design $GITHUB_REF_NAME" \
+            --notes-file notas.md \
+            --verify-tag \
+            "dist/premium-web-design-${GITHUB_REF_NAME}.zip"
